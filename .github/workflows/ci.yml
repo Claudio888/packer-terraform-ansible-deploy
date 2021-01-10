@@ -28,6 +28,12 @@ jobs:
     - name: Packer Validation
       run: packer validate -syntax-only ./packer/image.json
 
+    - name: Credentials test
+      run: echo $ECR_AWS_ACCESS_KEY && echo $ECR_AWS_SECRET_KEY
+      env:
+        ECR_AWS_ACCESS_KEY: ${{ secrets.ECR_AWS_ACCESS_KEY}}
+        ECR_AWS_SECRET_KEY: ${{ secrets.ECR_AWS_SECRET_KEY}}
+
     - name: Packer execute jobs
       run: packer build ./packer/image.json
       env:
