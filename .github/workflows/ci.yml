@@ -31,5 +31,5 @@ jobs:
     - name: Packer execute jobs
       run: packer build ./packer/image.json
       env:
-        ECR_AWS_ACCESS_KEY: ${{ secret.ECR_AWS_ACCESS_KEY}}
-        ECR_AWS_SECRET_KEY: ${{ secret.ECR_AWS_SECRET_KEY}}
+        ECR_AWS_ACCESS_KEY: ${{ secrets.ECR_AWS_ACCESS_KEY}}
+        ECR_AWS_SECRET_KEY: ${{ secrets.ECR_AWS_SECRET_KEY}}
