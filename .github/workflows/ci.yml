@@ -13,7 +13,7 @@ jobs:
     defaults:
       run:
         shell: bash
-
+        
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
@@ -21,6 +21,9 @@ jobs:
 
     - name: Packer Version
       run: packer --version
+
+    - name: Check path
+      run: pwd
     
     - name: Packer Validation
       run: packer validate -syntax-only ../packer/image.json
