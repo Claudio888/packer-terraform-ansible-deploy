@@ -1,8 +1,8 @@
 {
     "variables": {
         "aws_region": "us-east-1",
-        "aws_access_key": "$ {{env `ECR_AWS_ACCESS_KEY`}}",
-        "aws_secret_key": "$ {{env `ECR_AWS_SECRET_KEY`}}"
+        "aws_access_key": "{{env `ECR_AWS_ACCESS_KEY`}}",
+        "aws_secret_key": "{{env `ECR_AWS_SECRET_KEY`}}"
     },
     "builders": [
         {
