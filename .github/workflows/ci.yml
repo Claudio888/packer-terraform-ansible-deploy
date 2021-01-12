@@ -71,6 +71,15 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_KEY }}
+
+    - name: Terraform create workspace of dev
+      run: terraform workspace new dev
+    
+    - name: Terraform create workspace of prod
+      run: terraform workspace new prod
+
+    - name: Select correct workspace
+      run: terraform workspace select ${{ github.event.inputs.envDeploy }}
     
     - name: Terraform plan
       run: terraform plan -var-file=${{ github.event.inputs.envDeploy }}.tfvars
