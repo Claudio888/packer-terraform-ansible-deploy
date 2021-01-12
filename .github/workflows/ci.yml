@@ -1,6 +1,13 @@
 name: 'CI'
 
-on: [workflow_dispatch]
+on: 
+  workflow_dispatch:
+    inputs:
+      envDeploy:
+        description: Environtment to deploy
+        required: true
+        default: "dev"
+
 
 jobs:
   packer:
@@ -16,7 +23,7 @@ jobs:
 
     steps:
     # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
+    - name: Checkout packer code
       uses: actions/checkout@v2
 
     - name: Packer Version
@@ -33,3 +40,39 @@ jobs:
       env:
         ECR_AWS_ACCESS_KEY: ${{ secrets.ECR_AWS_ACCESS_KEY }}
         ECR_AWS_SECRET_KEY: ${{ secrets.ECR_AWS_SECRET_KEY }}
+  
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    container:
+      image: hashicorp/terraform:latest
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout terraform code
+      uses: actions/checkout@v2 
+
+    - name: Terraform Version
+      run: terraform --version
+
+    - name: Access Terraform directory
+      run: cd ./terraform
+    
+    - name: Check path
+      run: pwd
+    
+    - name: Terraform init
+      run: terraform init
+    
+    - name: Terraform plan
+      run: terraform plan -var-file=${{ github.event.inputs.envDeploy }}.tfvars
+    
+    - name: Terraform apply
+      run: terraform apply -var-file=${{ github.event.inputs.envDeploy }}.tfvars
+
+    
