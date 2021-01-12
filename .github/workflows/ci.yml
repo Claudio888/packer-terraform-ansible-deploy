@@ -69,8 +69,8 @@ jobs:
     - name: Terraform init
       run: terraform init
       env:
-        ECR_AWS_ACCESS_KEY: ${{ secrets.ECR_AWS_ACCESS_KEY }}
-        ECR_AWS_SECRET_KEY: ${{ secrets.ECR_AWS_SECRET_KEY }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_KEY }}
     
     - name: Terraform plan
       run: terraform plan -var-file=${{ github.event.inputs.envDeploy }}.tfvars
