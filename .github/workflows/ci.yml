@@ -59,10 +59,7 @@ jobs:
 
     - name: Terraform Version
       run: terraform --version
-
-    - name: Access Terraform directory
-      run: cd ./terraform
-    
+   
     - name: Check path
       run: pwd
     
