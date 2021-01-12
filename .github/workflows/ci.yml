@@ -48,6 +48,10 @@ jobs:
     container:
       image: hashicorp/terraform:latest
 
+    defaults:
+      run:
+        working-directory: terraform
+
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout terraform code
@@ -78,9 +82,9 @@ jobs:
       run: terraform workspace select ${{ github.event.inputs.envDeploy }}
     
     - name: Terraform plan
-      run: terraform plan -var-file=${{ github.event.inputs.envDeploy }}.tfvars
+      run: terraform plan -var-file=./terraform/${{ github.event.inputs.envDeploy }}.tfvars
     
     - name: Terraform apply
-      run: terraform apply -var-file=${{ github.event.inputs.envDeploy }}.tfvars
+      run: terraform apply -var-file=./terraform/${{ github.event.inputs.envDeploy }}.tfvars
 
     
