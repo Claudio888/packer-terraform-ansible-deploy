@@ -1,0 +1,33 @@
+- hosts:
+  localhost: 
+  connection: local
+  tasks:
+
+  - name: Install aws-cli
+    shell: > 
+      sudo pip3 install awscli
+      sudo aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+      sudo aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+      sudo aws configure set region us-east-1
+      sudo aws configure set output json
+    become: yes
+
+  - name: Build projeto
+    shell: docker build -t getipv2 ../app/
+    become: yes
+    #args:
+    #  chdir: ./getip/getip-build/
+
+#Passos do  do ECR
+
+  - name: Etiqueta a imagem 
+    shell: docker tag getipv2 933375035704.dkr.ecr.us-east-1.amazonaws.com/packer-terraform-ansible-deploy-{{ ENV }}
+    become: yes
+
+  - name: Login ECR
+    shell: aws ecr get-login-password | docker login --username AWS --password-stdin 933375035704.dkr.ecr.us-east-1.amazonaws.com/packer-terraform-ansible-deploy
+    become: yes  
+
+  - name: Envia imagem para ECR 
+    shell: docker push 933375035704.dkr.ecr.us-east-1.amazonaws.com/packer-terraform-ansible-deploy-{{ ENV }}
+    become: yes

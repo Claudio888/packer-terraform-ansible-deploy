@@ -81,4 +81,40 @@ jobs:
 
     - name: Debug if file was created
       run: cat hosts
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: hosts
+        path: ./
+
+  ansible:
+    name: 'Ansible'
+    needs: terraform
+    runs-on: ubuntu-latest
+    container:
+      image: ansible/ansible:latest
+
+    defaults:
+      run:
+        working-directory: ansible
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_KEY }}
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout terraform code
+      uses: actions/checkout@v2 
+   
+    - uses: actions/download-artifact@master
+      with:
+        name: hosts
+        path: ./
+
+    - name: Run Build
+      run: ansible-playbook -i hosts build.yml --extra-vars= "ENV=${{ github.event.inputs.envDeploy }}"
+
+    - name: Run Deploy
+      run: ansible-playbook -i hosts deploy.yml --extra-vars= "ENV=${{ github.event.inputs.envDeploy }}"
     
