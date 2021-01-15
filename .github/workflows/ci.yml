@@ -92,7 +92,7 @@ jobs:
     needs: terraform
     runs-on: ubuntu-latest
     container:
-      image: ansible/ansible:latest
+      image: ansible/ansible
 
     defaults:
       run:
