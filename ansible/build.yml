@@ -5,6 +5,7 @@
 
   - name: Install aws-cli
     shell: > 
+      sudo apt install -y python3-pip
       sudo pip3 install awscli
       sudo aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
       sudo aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY

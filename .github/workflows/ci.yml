@@ -92,7 +92,7 @@ jobs:
     needs: terraform
     runs-on: ubuntu-latest
     container:
-      image: ansible/ansible
+      image: ansible/ansible:ubuntu1604py3
 
     defaults:
       run:
@@ -104,7 +104,7 @@ jobs:
 
     steps:
     # Checkout the repository to the GitHub Actions runner
-    - name: Checkout terraform code
+    - name: Checkout ansible code
       uses: actions/checkout@v2 
    
     - uses: actions/download-artifact@master
