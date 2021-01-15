@@ -80,5 +80,5 @@ jobs:
       run: terraform apply -var-file=${{ github.event.inputs.envDeploy }}.tfvars -auto-approve
 
     - name: Debug if file was created
-      run: ls ../ansible | cat hosts
+      run: cat hosts
     

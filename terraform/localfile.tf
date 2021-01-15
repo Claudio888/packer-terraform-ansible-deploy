@@ -3,5 +3,5 @@ resource "local_file" "tf_host_ansible" {
     [Instance]
     ${aws_eip.ip.public_ip} ansible_user=root
     DOC
-  filename = "../ansible/hosts"
+  filename = "hosts"
 }
