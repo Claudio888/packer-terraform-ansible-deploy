@@ -112,6 +112,9 @@ jobs:
         name: hosts
         path: ./
 
+    - name: Ansible version
+      run: ansible --version
+
     - name: Run Build
       run: ansible-playbook -i hosts build.yml --extra-vars= "ENV=${{ github.event.inputs.envDeploy }}"
 
