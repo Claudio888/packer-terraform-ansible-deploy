@@ -109,7 +109,7 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: hosts
-        path: ./
+        path: ./hosts
 
     - name: Check directory 
       run : ls -larth
