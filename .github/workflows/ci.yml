@@ -91,16 +91,15 @@ jobs:
     name: 'Ansible'
     needs: terraform
     runs-on: ubuntu-latest
-    container:
-      image: ansible/ansible:default
 
     defaults:
       run:
         working-directory: ansible
 
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY }}
+      AWS_ACCESS_KEY: ${{ secrets.ECR_AWS_ACCESS_KEY }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_KEY }}
+      AWS_EC2_KEY: ${{ secrets.AWS_EC2_KEY }} 
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -112,6 +111,12 @@ jobs:
         name: hosts
         path: ./
 
+    - name: Check directory 
+      run : ls -larth
+    
+    - name: Provision ansible, docker and aws cli for instance
+      run: chmod +x setupansible.sh && ./setupansible.sh
+
     - name: Ansible version
       run: ansible --version
 
@@ -119,5 +124,5 @@ jobs:
       run: ansible-playbook -i hosts build.yml --extra-vars= "ENV=${{ github.event.inputs.envDeploy }}"
 
     - name: Run Deploy
-      run: ansible-playbook -i hosts deploy.yml --extra-vars= "ENV=${{ github.event.inputs.envDeploy }}"
+      run: ansible-playbook -i hosts deploy.yml --key-file = ./keyfile.pem  --extra-vars= "ENV=${{ github.event.inputs.envDeploy }}"
     
