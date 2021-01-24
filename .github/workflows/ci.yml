@@ -82,7 +82,7 @@ jobs:
     - name: Debug if file was created
       run: cat hosts
 
-    - uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@v1
       with:
         name: hosts
         path: ./
@@ -106,7 +106,7 @@ jobs:
     - name: Checkout ansible code
       uses: actions/checkout@v2 
    
-    - uses: actions/download-artifact@master
+    - uses: actions/download-artifact@v1
       with:
         name: hosts
         path: ./
