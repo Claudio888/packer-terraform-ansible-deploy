@@ -91,10 +91,15 @@ jobs:
     - name: Debug ls
       run: ls
 
+    - uses: geekyeggo/delete-artifact@v1
+      with:
+        name: artefato
+
     - uses: actions/upload-artifact@master
       with:
         name: artefato
-        path: ./*
+        path: /__w/packer-terraform-ansible-deploy/packer-terraform-ansible-deploy/terraform/hosts
+
 
   ansible:
     name: 'Ansible'
