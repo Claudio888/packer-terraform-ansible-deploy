@@ -82,7 +82,7 @@ jobs:
     - name: Debug if file was created
       run: cat hosts
 
-    - name: Debug if file was created
+    - name: Debug pwd
       run: pwd
 
     - uses: actions/upload-artifact@master
