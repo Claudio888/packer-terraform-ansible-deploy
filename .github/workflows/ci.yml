@@ -85,7 +85,7 @@ jobs:
     - uses: actions/upload-artifact@master
       with:
         name: hosts
-        path: ./
+        path: ./hosts
 
   ansible:
     name: 'Ansible'
@@ -110,14 +110,19 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: hosts
-        path: ./
+        path: ./hosts
 
-    - name: Ansible version
-      run: ansible --version
+    - uses: saubermacherag/ansible-playbook-docker-action@v1.3
+      with:
+        playbookName: 'build.yml'
+        inventoryFile: 'hosts'
+        extraVars: "-e ENV=${{ github.event.inputs.envDeploy }}"
+        verbosity: "vv"
 
-    - name: Run Build
-      run: ansible-playbook -i hosts build.yml --extra-vars= "ENV=${{ github.event.inputs.envDeploy }}"
-
-    - name: Run Deploy
-      run: ansible-playbook -i hosts deploy.yml --extra-vars= "ENV=${{ github.event.inputs.envDeploy }}"
+    - uses: saubermacherag/ansible-playbook-docker-action@v1.3
+      with:
+        playbookName: 'deploy.yml'
+        inventoryFile: 'hosts'
+        extraVars: "-e ENV=${{ github.event.inputs.envDeploy }}"
+        verbosity: "vv"
     
