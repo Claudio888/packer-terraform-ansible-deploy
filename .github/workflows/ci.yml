@@ -82,10 +82,13 @@ jobs:
     - name: Debug if file was created
       run: cat hosts
 
+    - name: Debug if file was created
+      run: pwd
+
     - uses: actions/upload-artifact@master
       with:
-        name: hosts
-        path: ./hosts
+        name: artefato
+        path: hosts
 
   ansible:
     name: 'Ansible'
@@ -108,8 +111,8 @@ jobs:
    
     - uses: actions/download-artifact@master
       with:
-        name: hosts
-        path: ./hosts
+        name: artefato
+        path: hosts
 
     - uses: saubermacherag/ansible-playbook-docker-action@v1.3
       with:
